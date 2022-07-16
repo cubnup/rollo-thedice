@@ -4,7 +4,7 @@ onready var vars = get_node("/root/global")
 onready var aimline = $aimline
 onready var gcheck = $groundcheck
 onready var dicespr = get_parent().get_node("dicespr")
-onready var x = get_parent().get_node("x")
+onready var x = $x
 
 var l = false
 var r = false
@@ -60,6 +60,7 @@ func _process(delta):
 	
 	mousepos = get_global_mouse_position()
 	
+	vars.player = self
 	vars.ppos = position
 	vars.pspeed = vel.length()
 	vars.pgrounded = is_on_floor()

@@ -1,5 +1,6 @@
 extends Node
 
+var player
 var lrdir = 0.0
 var uddir = 0.0
 var state = 0;
