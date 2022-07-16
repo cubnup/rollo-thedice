@@ -11,5 +11,5 @@ func _process(delta):
 	d_anim.frame=vars.state
 
 func _integrate_forces(state): 
-	linear_velocity = (vars.ppos-position)*(vars.ppos.distance_to(position))*1.5
+	linear_velocity = (vars.ppos-position)*(vars.ppos.distance_to(position))
 	angular_velocity+=sign((vars.lrdir+vars.pvel.x)/2)/PI

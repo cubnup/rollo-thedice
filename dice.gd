@@ -4,6 +4,7 @@ onready var vars = get_node("/root/global")
 onready var aimline = $aimline
 onready var gcheck = $groundcheck
 onready var dicespr = get_parent().get_node("dicespr")
+onready var x = get_parent().get_node("x")
 
 var l = false
 var r = false
@@ -40,6 +41,9 @@ var special = true
 var mousepos = Vector2.ZERO
 var coyoteclock = 0
 
+#debug variables
+var debug_die_no = 0
+
 func _ready():
 	vars.ppos = position
 	vars.pspeed = vel.length()
@@ -50,12 +54,19 @@ func _ready():
 
 func _process(delta):
 	
+	if Input.is_action_just_pressed("debug"):
+		debug_die_no+=1
+		debug_die_no=debug_die_no%6
+	
 	mousepos = get_global_mouse_position()
 	
 	vars.ppos = position
 	vars.pspeed = vel.length()
 	vars.pgrounded = is_on_floor()
 	vars.pvel = vel
+	vars.jumpclock = jumpclock
+	vars.specialstartclock = specialstartclock
+	vars.specialendclock = specialendclock
 	
 	if Input.is_action_just_pressed("reload"):get_tree().change_scene(get_tree().current_scene.filename)
 	
@@ -171,7 +182,7 @@ func start_special():
 		specialpos = position
 		rng.randomize()
 		vars.state=rng.randi_range(0,1)
-		vars.state=0
+		vars.state=debug_die_no
 	if (!s and specialstartclock<specialtime-20 and specialstartclock>0) or specialstartclock==1:
 		vel = Vector2.ZERO
 		start_end_special()
@@ -186,18 +197,19 @@ func start_special():
 func start_end_special():
 	specialenddir = aimline.aimdir.normalized()
 	specialendcharge = min(specialtime/2,specialtime-specialstartclock)
-	specialtimes = [10*specialendcharge/100,30,20,20,20,20]
+	specialtimes = [round(specialendcharge/3.0),30,100,20,10,20]
 	specialendpos = position
 	specialstartclock=0
 	specialendclock = specialtimes[vars.state]
-	specialcooldown=30
+	specialcooldown=1000
+	
 
 func end_special():
 	move=false
-	specialendclock -= 1 if specialendclock>0 else 0
+	specialendclock -= 1.0 if specialendclock>0 else 0.0
 	if specialendclock>0:match vars.state:
 		0:
-			vel = (10)*(specialtimes[0]-specialendclock)/specialtimes[0]*specialenddir*specialtime
+			vel = 8*((specialendclock)/specialtimes[0])*specialenddir*specialtime
 		1:
 			var goto1 = specialenddir*specialtime
 			var goto2 = Vector2(goto1.x,-goto1.y)
@@ -206,27 +218,30 @@ func end_special():
 			else:
 				position=position.linear_interpolate(specialendpos+goto1+goto2,0.15)
 		2:
-			print(3)
+			var dir = (mousepos-position).normalized()
+			dir = (dir.normalized()).slerp(mousepos-position,0.5)
+			vel = dir*300
 		3:
 			print(4)
 		4:
-			print(5)
+			if(position.distance_to(x.position)>vars.d5x):
+				vel+=(x.position-position).normalized()*10
+			else:
+				vel.y+=fallspd
 		5:
 			print(6)
+	if specialendclock==1:
+		specialcooldown=30
 	if specialendclock==0 and specialstartclock==0:
-		
 		move = true
 		jump = true
 	
 func aim_special():
 	aimline.modulate = Color(1.0,1.0,1.0,aimlinealpha)
-	if specialstartclock==0:
-		aimlinealpha = lerp(aimlinealpha,0.0,0.2) 
+	if !aimline.aimdir.normalized().is_equal_approx(Vector2.RIGHT.rotated(snap_angle(inputdir.angle(),16))):
+		aimline.aimdir = (aimline.aimdir.normalized()).linear_interpolate((mousepos-position).normalized(),0.5)
 	if specialstartclock>0:
 		aimlinealpha = lerp(aimlinealpha,1.0,0.05) 
-		if !aimline.aimdir.normalized().is_equal_approx(Vector2.RIGHT.rotated(snap_angle(inputdir.angle()))):
-			aimline.aimdir = (aimline.aimdir.normalized()).slerp(mousepos-position,0.5)
-	if specialstartclock>0:
 		match vars.state:
 			0:
 				var p1 = aimline.aimdir*25
@@ -239,10 +254,24 @@ func aim_special():
 				var p2 = aimline.aimdir*mult
 				var p3 = aimline.aimdir*mult+Vector2(aimline.aimdir.x,-aimline.aimdir.y)*mult
 				aimline.points = [p1,p2,p3]
-		
+			2:
+				var p1 = aimline.aimdir*25
+				var mult = 60
+				var p2 = aimline.aimdir*mult
+				aimline.points = [p1,p2]
+			4:
+				var p1 = aimline.aimdir*25
+				var p2 = x.global_position-global_position
+				aimline.points = [p1,p2]
+	elif specialendclock>0 and vars.state==2:
+			var p1 = aimline.aimdir*25
+			var mult = 60
+			var p2 = aimline.aimdir*mult
+			aimline.points = [p1,p2]
 	else:
+		aimlinealpha = lerp(aimlinealpha,0.0,0.2)
 		aimline.points = [aimline.points[0].linear_interpolate(Vector2.ZERO,0.4),aimline.points[1].linear_interpolate(Vector2.ZERO,0.4)]
-	aimline.rc.cast_to = aimline.aimdir*1000
+	aimline.rc.cast_to = (mousepos-position).clamped(250)
 
-func snap_angle(angle):
-	return PI/16 * round(angle / (PI/16));
+func snap_angle(angle,div):
+	return PI/div * round(angle / (PI/div));
