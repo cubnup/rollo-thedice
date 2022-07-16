@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://dice.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -9,12 +9,18 @@
 [ext_resource path="res://5.png" type="Texture" id=7]
 [ext_resource path="res://1.png" type="Texture" id=8]
 [ext_resource path="res://6.png" type="Texture" id=9]
+[ext_resource path="res://aimline.gd" type="Script" id=10]
+[ext_resource path="res://aimline.png" type="Texture" id=11]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 385, 48 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 385, 48 )
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0.0165746, 1 )
+colors = PoolColorArray( 0, 0.790829, 0.844444, 1, 0.828125, 0.271729, 0.278274, 1 )
 
 [sub_resource type="PhysicsMaterial" id=6]
 friction = 10.0
@@ -34,18 +40,6 @@ animations = [ {
 
 [node name="Node2D" type="Node2D"]
 
-[node name="dice" type="KinematicBody2D" parent="."]
-collision_mask = 2
-script = ExtResource( 1 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="dice"]
-shape = SubResource( 1 )
-
-[node name="Icon" type="Sprite" parent="dice"]
-modulate = Color( 1, 1, 1, 0.419608 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 2 )
-
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2( 0, 70 )
 collision_layer = 3
@@ -57,21 +51,47 @@ shape = SubResource( 2 )
 [node name="Camera" type="Camera2D" parent="."]
 current = true
 
-[node name="dicespr" type="RigidBody2D" parent="."]
+[node name="die" type="Node2D" parent="."]
+
+[node name="dice" type="KinematicBody2D" parent="die"]
+collision_mask = 2
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="die/dice"]
+shape = SubResource( 1 )
+
+[node name="Icon" type="Sprite" parent="die/dice"]
+visible = false
+modulate = Color( 1, 1, 1, 0.419608 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="aimline" type="Node2D" parent="die/dice"]
+script = ExtResource( 10 )
+
+[node name="line" type="Line2D" parent="die/dice/aimline"]
+points = PoolVector2Array( 0, 0, 70, 0 )
+width = 32.0
+gradient = SubResource( 7 )
+texture = ExtResource( 11 )
+texture_mode = 1
+end_cap_mode = 2
+
+[node name="dicespr" type="RigidBody2D" parent="die"]
 collision_mask = 2
 physics_material_override = SubResource( 6 )
 gravity_scale = 2.0
 script = ExtResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="dicespr"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="die/dicespr"]
 shape = SubResource( 4 )
 
-[node name="Icon" type="Sprite" parent="dicespr"]
+[node name="Icon" type="Sprite" parent="die/dicespr"]
 visible = false
 modulate = Color( 1, 1, 1, 0.384314 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
-[node name="d_anim" type="AnimatedSprite" parent="dicespr"]
+[node name="d_anim" type="AnimatedSprite" parent="die/dicespr"]
 scale = Vector2( 0.064, 0.064 )
 frames = SubResource( 5 )
