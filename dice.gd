@@ -23,7 +23,7 @@ var jumpclock = 0
 var jumpornot = false
 var jumpimpulse = 50
 var specialslow = 0.01
-var specialtime = 300
+var specialtime = 250
 var specialtimes = [20,20,20,20,20,20]
 var specialpos = Vector2.ZERO
 var specialstartclock = 0
@@ -38,12 +38,15 @@ var move = true
 var jump = true
 var special = true
 var mousepos = Vector2.ZERO
+var coyoteclock = 0
 
 func _ready():
 	vars.ppos = position
 	vars.pspeed = vel.length()
 	vars.pvel = vel
 	gcheck.enabled = true
+	
+	
 
 func _process(delta):
 	
@@ -122,6 +125,7 @@ func move():
 		vel.y=lerp(vel.y,0,0.01)
 
 func jump():
+	coyoteclock -= 1 if coyoteclock>0 else 0
 	if jump:
 		jumpclock -= 1 if jumpclock>0 else 0
 		if jumpclock == 99:
@@ -135,15 +139,18 @@ func jump():
 			fallspd = fallspds[0]
 	
 		if self.is_on_floor():
+			coyoteclock=15
+		if coyoteclock>0:
 			if jumpclock <90: jumpclock=0
-			if jumpclock==0: vel.y=0
+			if coyoteclock>10 and jumpclock==0: vel.y=0
 			if Input.is_action_pressed("up"):
+				coyoteclock=0
 				jumpclock = 100
-				
 		if Input.is_action_pressed("down") and specialstartclock==0:
 			fallspd = fallspds[2]
 		if Input.is_action_just_released("down"):
 			fallspd = fallspds[0]
+		if specialcooldown==1:dicespr.particle.emitting=false
 	vel.y+=fallspd
 
 func start_special():
@@ -152,8 +159,8 @@ func start_special():
 	var rng = RandomNumberGenerator.new()
 	if gcheck.is_colliding() and specialstartclock>0: vel.y -= 20
 	if Input.is_action_just_pressed("special") and specialcooldown==0:
+		dicespr.particle.emitting=true
 		jump = false
-		move = false
 		specialstartclock=specialtime
 		inputdir = Vector2.ZERO
 		aimline.aimdir = vel.normalized()
@@ -163,7 +170,8 @@ func start_special():
 	elif specialstartclock > specialtime-15 and specialstartclock%2==0:
 		specialpos = position
 		rng.randomize()
-		vars.state=rng.randi_range(1,1)
+		vars.state=rng.randi_range(0,1)
+		vars.state=0
 	if (!s and specialstartclock<specialtime-20 and specialstartclock>0) or specialstartclock==1:
 		vel = Vector2.ZERO
 		start_end_special()
@@ -178,26 +186,25 @@ func start_special():
 func start_end_special():
 	specialenddir = aimline.aimdir.normalized()
 	specialendcharge = min(specialtime/2,specialtime-specialstartclock)
-	specialtimes = [10*specialendcharge/100,20,20,20,20,20]
+	specialtimes = [10*specialendcharge/100,30,20,20,20,20]
 	specialendpos = position
 	specialstartclock=0
 	specialendclock = specialtimes[vars.state]
-	specialcooldown=40
+	specialcooldown=30
 
 func end_special():
+	move=false
 	specialendclock -= 1 if specialendclock>0 else 0
 	if specialendclock>0:match vars.state:
 		0:
-			fallspd=0;
-			vel = 5*(specialenddir*max(30,min(specialtime,(specialtime-specialstartclock)*2)))
+			vel = (10)*(specialtimes[0]-specialendclock)/specialtimes[0]*specialenddir*specialtime
 		1:
-			
-			var goto1 = aimline.aimdir*max(30,min(specialtime,(specialtime-specialstartclock)*2))
+			var goto1 = specialenddir*specialtime
 			var goto2 = Vector2(goto1.x,-goto1.y)
-			if specialendclock>10:
-				position=position.linear_interpolate(specialendpos+goto1,0.2)
+			if specialendclock>15:
+				position=position.linear_interpolate(specialendpos+goto1,0.15)
 			else:
-				position=position.linear_interpolate(specialendpos+goto1+goto2,0.2)
+				position=position.linear_interpolate(specialendpos+goto1+goto2,0.15)
 		2:
 			print(3)
 		3:
@@ -207,6 +214,7 @@ func end_special():
 		5:
 			print(6)
 	if specialendclock==0 and specialstartclock==0:
+		
 		move = true
 		jump = true
 	
@@ -222,7 +230,7 @@ func aim_special():
 		match vars.state:
 			0:
 				var p1 = aimline.aimdir*25
-				var mult = max(30,min(specialtime,(specialtime-specialstartclock)*2))
+				var mult = max(30,min(specialtime*1.5,(specialtime-specialstartclock)*2))
 				var p2 = aimline.aimdir*mult
 				aimline.points = [p1,p2]
 			1:

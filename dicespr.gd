@@ -2,6 +2,7 @@ extends RigidBody2D
 
 onready var vars = get_node("/root/global")
 onready var d_anim = $d_anim
+onready var particle = $particle
 
 func _ready():
 	pass
