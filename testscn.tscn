@@ -25,7 +25,7 @@ colors = PoolColorArray( 0, 0.790829, 0.844444, 1, 0.828125, 0.271729, 0.278274,
 [sub_resource type="PhysicsMaterial" id=6]
 friction = 10.0
 rough = true
-bounce = 0.72
+absorbent = true
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 16, 16 )
@@ -61,7 +61,6 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Icon" type="Sprite" parent="die/dice"]
-visible = false
 modulate = Color( 1, 1, 1, 0.419608 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
@@ -76,6 +75,16 @@ gradient = SubResource( 7 )
 texture = ExtResource( 11 )
 texture_mode = 1
 end_cap_mode = 2
+
+[node name="rc" type="RayCast2D" parent="die/dice/aimline"]
+collision_mask = 2
+
+[node name="Icon" type="Sprite" parent="die/dice/aimline"]
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 2 )
+
+[node name="Line2D" type="Line2D" parent="die/dice/aimline"]
+width = 2.0
 
 [node name="dicespr" type="RigidBody2D" parent="die"]
 collision_mask = 2
