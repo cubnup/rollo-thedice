@@ -223,7 +223,7 @@ func end_special():
 				position=position.linear_interpolate(specialendpos+goto1+goto2,0.15)
 		2:
 			var dir = (mousepos-position).normalized()
-			dir = (dir.normalized()).slerp(mousepos-position,0.5)
+			dir = (dir.normalized()).slerp(Vector2.RIGHT.rotated(snap_angle((mousepos-position).angle(),2)),0.5)
 			vel = dir*300
 		3:
 			print(4)
