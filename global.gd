@@ -12,3 +12,5 @@ var d5x = 250
 var jumpclock
 var specialstartclock = 0 
 var specialendclock = 0
+var doorclock = 0
+var doorpos = Vector2.ZERO

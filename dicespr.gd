@@ -9,6 +9,7 @@ func _ready():
 
 func _process(delta):
 	d_anim.frame=vars.state
+	if vars.player.specials==0: d_anim.frame = 6
 
 func _integrate_forces(state): 
 	linear_velocity = ((vars.ppos-position)*(vars.ppos.distance_to(position))).clamped(1000)

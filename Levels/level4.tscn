@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://prefabs/danger.tscn" type="PackedScene" id=1]
+[ext_resource path="res://prefabs/die.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/bg.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/tilemap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://prefabs/moving.tscn" type="PackedScene" id=5]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="bg" parent="." instance=ExtResource( 3 )]
+
+[node name="die" parent="." instance=ExtResource( 2 )]
+
+[node name="TileMap" parent="." instance=ExtResource( 4 )]
+tile_data = PoolIntArray( -131089, 0, 0, -131088, 0, 0, -131087, 0, 0, -131086, 0, 0, -196595, 0, 0, -196594, 0, 0, -196593, 0, 0, -196592, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 262142, 0, 0, 262143, 0, 0, 196608, 0, 0, 196609, 0, 0 )
+
+[node name="danger2" parent="TileMap" instance=ExtResource( 1 )]
+position = Vector2( 640, -30 )
+size = Vector2( 4, 1 )
+
+[node name="moving" parent="TileMap" instance=ExtResource( 5 )]
+position = Vector2( 700, -350 )
+p2 = Vector2( -200, -200 )
+
+[node name="moving2" parent="TileMap" instance=ExtResource( 5 )]
+position = Vector2( -252, 17 )
+timer = 100
+p2 = Vector2( -300, 0 )

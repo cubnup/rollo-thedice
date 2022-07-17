@@ -5,6 +5,7 @@ onready var line = $line
 onready var line2 = $Line2D
 onready var rc = $rc
 onready var x = get_parent().get_node("x")
+onready var p = get_parent()
 var xpos = Vector2.ZERO
 var points = [Vector2.ZERO,Vector2.ZERO]
 var aimdir = Vector2.ZERO
@@ -21,5 +22,5 @@ func _process(delta):
 		if vars.specialendclock>0: x.global_position=xpos
 		vars.d5x = 250
 	line2.points = [Vector2.ZERO, rc.cast_to]
-	x.visible=[4,5].has(vars.state) and (vars.specialstartclock>0 or vars.specialendclock>0)
+	x.visible=[4,5].has(vars.state) and ((vars.specialstartclock>0 and vars.specialstartclock<p.specialtime-15) or vars.specialendclock>0)
 	x.frame=vars.state

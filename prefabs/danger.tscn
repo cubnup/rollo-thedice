@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://danger.gd" type="Script" id=1]
+[ext_resource path="res://danger.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=16]
+custom_solver_bias = 1.0
+extents = Vector2( 60, 30 )
+
+[node name="danger" type="RigidBody2D"]
+mode = 3
+contacts_reported = 4
+contact_monitor = true
+script = ExtResource( 1 )
+
+[node name="coll" type="CollisionShape2D" parent="."]
+shape = SubResource( 16 )
+
+[node name="block" type="Sprite" parent="."]
+scale = Vector2( 2, 1 )
+texture = ExtResource( 2 )
+
+[connection signal="body_entered" from="." to="." method="_on_danger_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_danger_body_exited"]

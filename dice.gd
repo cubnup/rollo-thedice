@@ -6,6 +6,7 @@ onready var gcheck = $groundcheck
 onready var dicespr = get_parent().get_node("dicespr")
 onready var x = $x
 onready var ball6 = preload("res://prefabs/6ball.tscn")
+onready var cam = get_parent().get_node("camera")
 
 var l = false
 var r = false
@@ -17,9 +18,9 @@ var lrdir = 0.0
 var uddir = 0.0
 var inputdir = Vector2.RIGHT
 var aimdir = Vector2.RIGHT
-var fallspds = [15,0,45]
+var fallspds = [25,0,45]
 var fallspd = fallspds[0]
-var movspd = 300
+var movspd = 500
 var friction = 0.1
 var jumpclock = 0
 var jumpornot = false
@@ -39,7 +40,9 @@ var aimlinealpha = 1.0
 var timespd = 1.0
 var move = true
 var jump = true
-export(bool)var special = true
+var special = true
+var specialcount = 2 
+var specials = specialcount
 var mousepos = Vector2.ZERO
 var coyoteclock = 0
 var d5 = 0
@@ -58,7 +61,7 @@ func _ready():
 	
 
 func _process(delta):
-	
+	vel = vel.clamped(1000)
 	if Input.is_action_just_pressed("debug"):
 		debug_die_no+=1
 		debug_die_no=debug_die_no%6
@@ -74,8 +77,8 @@ func _process(delta):
 	vars.specialstartclock = specialstartclock
 	vars.specialendclock = specialendclock
 	
-	if Input.is_action_just_pressed("reload"):get_tree().change_scene(get_tree().current_scene.filename)
-	
+	if Input.is_action_just_pressed("reload") or global_position.y>800:
+		get_tree().change_scene(get_tree().current_scene.filename)
 
 	input()
 	move()
@@ -139,8 +142,8 @@ func input():
 func move():
 	if move:
 		vel.x=lerp(vel.x,lrdir*movspd,0.1)
-		vel.x=lerp(vel.x,0,0.01)
-		vel.y=lerp(vel.y,0,0.01)
+		vel.x=lerp(vel.x,0,friction)
+		vel.y=lerp(vel.y,0,friction)
 
 func jump():
 	coyoteclock -= 1 if coyoteclock>0 else 0
@@ -148,15 +151,16 @@ func jump():
 		jumpclock -= 1 if jumpclock>0 else 0
 		if jumpclock == 99:
 			fallspd = fallspds[1]
-			vel.y -= jumpimpulse*2
+			vel.y -= jumpimpulse*3
 		elif jumpclock >97:
 			vel.y -= jumpimpulse*(100-jumpclock)
 		elif jumpclock >92:
-			if Input.is_action_pressed("up"): vel.y -= jumpimpulse
+			if Input.is_action_pressed("up"): vel.y -= jumpimpulse*1.5
 		elif (jumpclock>0 and !Input.is_action_pressed("up")) or jumpclock <86:
 			fallspd = fallspds[0]
 	
 		if self.is_on_floor():
+			specials = specialcount
 			coyoteclock=15
 		if coyoteclock>0:
 			if jumpclock <90: jumpclock=0
@@ -176,7 +180,7 @@ func start_special():
 	specialcooldown -= 1 if specialcooldown>0 else 0
 	var rng = RandomNumberGenerator.new()
 	if gcheck.is_colliding() and specialstartclock>0: vel.y -= 20
-	if s and specialcooldown==0 and specialstartclock==0:
+	if s and specialcooldown==0 and specialstartclock==0 and specials >0:
 		dicespr.particle.emitting=true
 		jump = false
 		specialstartclock=specialtime
@@ -189,7 +193,7 @@ func start_special():
 		specialpos = position
 		rng.randomize()
 		vars.state=rng.randi_range(0,5)
-		vars.state=debug_die_no
+		#vars.state=debug_die_no
 	if (!s and specialstartclock<specialtime-25 and specialstartclock>0) or specialstartclock==1:
 		vel = Vector2.ZERO
 		start_end_special()
@@ -204,7 +208,7 @@ func start_special():
 func start_end_special():
 	specialenddir = aimline.aimdir.normalized()
 	specialendcharge = min(specialtime/2,specialtime-specialstartclock)
-	specialtimes = [round(specialendcharge/3.0),30,100,50,200,20]
+	specialtimes = [round(specialendcharge/3.0),30,100,50,500,20]
 	specialendpos = global_position
 	specialendmousepos = mousepos
 	specialstartclock=0
@@ -245,7 +249,7 @@ func end_special():
 			if x.position.length()>d5: 
 				vel+=x.position/6
 				global_position= global_position.linear_interpolate(x.global_position+(global_position-x.global_position).clamped(d5),0.5)
-			if specialendclock<specialtimes[4]-100:vel+=x.position
+			if specialendclock<200:vel+=x.position
 			#if u: d5-=1
 			#if d: d5+=1
 			if l: vel += x.position.rotated(-PI/2)/50
@@ -261,6 +265,7 @@ func end_special():
 				add_ball(global_position+specialenddir*40,x.global_position)
 	if specialendclock==1:
 		specialcooldown=10
+		specials-= 1 if specials>0 else 0
 	if specialendclock==0 and specialstartclock==0:
 		move = true
 		friction = 0.05

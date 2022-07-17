@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenebutton.gd" type="Script" id=1]
 [ext_resource path="res://button.png" type="Texture" id=2]
@@ -22,6 +22,9 @@ region_rect = Rect2( 0, 0, 500, 500 )
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 500, 500 )
 
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 300, 100 )
+
 [node name="scenebutton" type="Button"]
 margin_left = 60.0
 margin_top = 100.0
@@ -35,3 +38,9 @@ text = "Levels"
 clip_text = true
 script = ExtResource( 1 )
 scene = "res://Levels/testscn.tscn"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 300, 99.5 )
+shape = SubResource( 6 )

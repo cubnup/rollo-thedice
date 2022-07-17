@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://bg.png" type="Texture" id=1]
+[ext_resource path="res://prefabs/bg.gd" type="Script" id=2]
+
+[sub_resource type="Environment" id=1]
+background_mode = 4
+fog_color = Color( 0, 0.501961, 1, 1 )
+tonemap_mode = 3
+auto_exposure_min_luma = 0.59
+auto_exposure_max_luma = 1.93
+glow_enabled = true
+glow_intensity = 0.05
+glow_strength = 0.16
+glow_bloom = 0.14
+glow_blend_mode = 1
+glow_hdr_scale = 4.0
+glow_bicubic_upscale = true
+adjustment_enabled = true
+adjustment_contrast = 1.1
+
+[node name="bg" type="Node2D"]
+z_index = -100
+script = ExtResource( 2 )
+
+[node name="postprocessing" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="bgsprite" type="Sprite" parent="."]
+scale = Vector2( 10000, 10000 )
+z_index = -5
+texture = ExtResource( 1 )
