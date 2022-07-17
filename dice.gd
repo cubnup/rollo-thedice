@@ -40,6 +40,7 @@ var jump = true
 var special = true
 var mousepos = Vector2.ZERO
 var coyoteclock = 0
+var d5 = 0
 
 #debug variables
 var debug_die_no = 0
@@ -198,11 +199,13 @@ func start_special():
 func start_end_special():
 	specialenddir = aimline.aimdir.normalized()
 	specialendcharge = min(specialtime/2,specialtime-specialstartclock)
-	specialtimes = [round(specialendcharge/3.0),30,100,20,10,20]
+	specialtimes = [round(specialendcharge/3.0),30,100,20,500,20]
 	specialendpos = position
 	specialstartclock=0
 	specialendclock = specialtimes[vars.state]
 	specialcooldown=1000
+	d5 = vars.d5x
+	
 	
 
 func end_special():
@@ -225,16 +228,28 @@ func end_special():
 		3:
 			print(4)
 		4:
-			if(position.distance_to(x.position)>vars.d5x):
-				vel+=(x.position-position).normalized()*10
-			else:
-				vel.y+=fallspd
+			fallspd=15
+			print(specialendclock)
+			if x.position.length()>d5: 
+				vel+=x.position/10
+				global_position= global_position.linear_interpolate(x.global_position+(global_position-x.global_position).clamped(d5),0.5)
+			if specialendclock<specialtimes[4]-100:vel+=x.position
+			#if u: d5-=1
+			#if d: d5+=1
+			if l: vel += x.position.rotated(-PI/2)/50
+			if r: vel += x.position.rotated(PI/2)/50
+			if Input.is_action_just_pressed("special"):
+				specialendclock=specialtimes[4]-100
+			if x.position.length() <90:
+				specialendclock=1
+			vel=vel.clamped(1000)
 		5:
 			print(6)
 	if specialendclock==1:
 		specialcooldown=30
 	if specialendclock==0 and specialstartclock==0:
 		move = true
+		friction = 0.05
 		jump = true
 	
 func aim_special():
@@ -272,7 +287,7 @@ func aim_special():
 	else:
 		aimlinealpha = lerp(aimlinealpha,0.0,0.2)
 		aimline.points = [aimline.points[0].linear_interpolate(Vector2.ZERO,0.4),aimline.points[1].linear_interpolate(Vector2.ZERO,0.4)]
-	aimline.rc.cast_to = (mousepos-position).clamped(250)
+	aimline.rc.cast_to = (mousepos-position).clamped(min(specialtime/2,(specialtime-specialstartclock)*7)*2)
 
 func snap_angle(angle,div):
 	return PI/div * round(angle / (PI/div));
