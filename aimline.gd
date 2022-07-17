@@ -21,4 +21,5 @@ func _process(delta):
 		if vars.specialendclock>0: x.global_position=xpos
 		vars.d5x = 250
 	line2.points = [Vector2.ZERO, rc.cast_to]
-	x.visible=vars.state==4
+	x.visible=[4,5].has(vars.state) and (vars.specialstartclock>0 or vars.specialendclock>0)
+	x.frame=vars.state
