@@ -79,7 +79,6 @@ func _process(delta):
 	
 	if Input.is_action_just_pressed("reload") or global_position.y>800:
 		get_tree().change_scene(get_tree().current_scene.filename)
-
 	input()
 	move()
 	jump()
@@ -219,6 +218,7 @@ func start_end_special():
 func end_special():
 	move=false
 	specialendclock -= 1.0 if specialendclock>0 else 0.0
+	if (is_on_floor()) and specialendclock>1: specialendclock=1
 	if specialendclock>0:match vars.state:
 		0:
 			vel = 8*((specialendclock)/specialtimes[0])*specialenddir*specialtime

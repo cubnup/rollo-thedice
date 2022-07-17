@@ -26,7 +26,7 @@ func _process(delta):
 		clock=timer
 	if clock==timer-1: which=!which
 	if which:
-		target = target.linear_interpolate(p1,0.1)
+		target = target.linear_interpolate(p1,0.02)
 	else:
-		target = target.linear_interpolate(p2,0.1)
+		target = target.linear_interpolate(p2,0.02)
 	global_position = global_position.linear_interpolate(target,0.1)

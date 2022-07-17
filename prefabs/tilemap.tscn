@@ -1,6 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://block.png" type="Texture" id=1]
+
+[sub_resource type="OccluderPolygon2D" id=18]
+polygon = PoolVector2Array( 64, 64, 0, 64, 0, 3.88892, 62.9167, 4.58337 )
 
 [sub_resource type="ConvexPolygonShape2D" id=17]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -13,6 +16,7 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
 0/region = Rect2( 0, 0, 64, 64 )
 0/tile_mode = 0
 0/occluder_offset = Vector2( 0, 0 )
+0/occluder = SubResource( 18 )
 0/navigation_offset = Vector2( 0, 0 )
 0/shape_offset = Vector2( 0, 0 )
 0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )

@@ -14,5 +14,5 @@ func _process(delta):
 func _integrate_forces(state): 
 	linear_velocity = ((vars.ppos-position)*(vars.ppos.distance_to(position))).clamped(1000)
 	angular_velocity+=sign((vars.lrdir+vars.pvel.x)/2)/PI
-	if vars.ppos.distance_to(position)>200:
+	if vars.ppos.distance_to(position)>250:
 		state.transform = Transform2D(0,vars.ppos)
