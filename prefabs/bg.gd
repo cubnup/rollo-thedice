@@ -10,4 +10,4 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	global_position = global_position.linear_interpolate(vars.ppos,0.01)
+	if is_instance_valid(vars.player): global_position = global_position.linear_interpolate(vars.ppos,0.01)

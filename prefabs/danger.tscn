@@ -5,7 +5,7 @@
 
 [sub_resource type="RectangleShape2D" id=16]
 custom_solver_bias = 1.0
-extents = Vector2( 60, 30 )
+extents = Vector2( 30, 30 )
 
 [node name="danger" type="RigidBody2D"]
 collision_layer = 3
@@ -19,7 +19,6 @@ script = ExtResource( 1 )
 shape = SubResource( 16 )
 
 [node name="block" type="Sprite" parent="."]
-scale = Vector2( 2, 1 )
 texture = ExtResource( 2 )
 
 [connection signal="body_entered" from="." to="." method="_on_danger_body_entered"]

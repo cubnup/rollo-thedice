@@ -62,9 +62,9 @@ func _ready():
 
 func _process(delta):
 	vel = vel.clamped(1000)
-	if Input.is_action_just_pressed("debug"):
-		debug_die_no+=1
-		debug_die_no=debug_die_no%6
+	#if Input.is_action_just_pressed("debug"):
+	#	debug_die_no+=1
+	#	debug_die_no=debug_die_no%6
 	
 	mousepos = get_global_mouse_position()
 	
@@ -77,6 +77,8 @@ func _process(delta):
 	vars.specialstartclock = specialstartclock
 	vars.specialendclock = specialendclock
 	
+	if Input.is_action_just_pressed("esc"):
+		get_tree().change_scene("res://Levels/Menu.tscn")
 	if Input.is_action_just_pressed("reload") or global_position.y>800:
 		get_tree().change_scene(get_tree().current_scene.filename)
 	input()
@@ -98,6 +100,8 @@ func _process(delta):
 	var coll = move_and_slide_with_snap(vel, Vector2.DOWN,Vector2.UP)
 
 func input():
+	
+	
 	
 	if Input.is_action_just_pressed("left"):
 		l = true
@@ -221,7 +225,7 @@ func end_special():
 	if (is_on_floor()) and specialendclock>1: specialendclock=1
 	if specialendclock>0:match vars.state:
 		0:
-			vel = 8*((specialendclock)/specialtimes[0])*specialenddir*specialtime
+			vel = 6*((specialendclock)/specialtimes[0])*specialenddir*specialtime
 		1:
 			var goto1 = specialenddir*specialtime
 			var goto2 = Vector2(goto1.x,-goto1.y)
@@ -232,7 +236,7 @@ func end_special():
 		2:
 			var dir = (mousepos-global_position).normalized()
 			dir = (dir.normalized()).slerp(Vector2.RIGHT.rotated(snap_angle((mousepos-global_position).angle(),4)),0.5)
-			vel = dir*300
+			vel = dir*200
 		3:
 			fallspd=0
 			var angle = (PI/2)
@@ -261,7 +265,7 @@ func end_special():
 			vel=vel.clamped(1000)
 		5:
 			if specialendclock==specialtimes[5]-1:
-				vel = -specialenddir*x.position.length()*5
+				vel = -specialenddir*x.position.length()*2
 				add_ball(global_position+specialenddir*40,x.global_position)
 	if specialendclock==1:
 		specialcooldown=10

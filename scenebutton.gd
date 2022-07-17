@@ -16,3 +16,6 @@ func _process(delta):
 	else:
 		if clock <= 1 and clock != 0:
 			get_tree().change_scene(scene)
+		if Input.is_action_just_pressed("esc"):
+			get_tree().change_scene("res://Levels/Menu.tscn")
+

@@ -19,8 +19,9 @@ func _ready():
 
 
 func _process(delta):
-	coll.shape.extents=size*30
-	block.scale = size
+	scale=size
+	#coll.shape.extents=size*30
+	#block.scale = size
 	clock -= 1 if clock>0 else 0
 	if clock==0: 
 		clock=timer
