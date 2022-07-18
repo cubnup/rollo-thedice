@@ -21,11 +21,16 @@ _global_script_class_icons={
 [application]
 
 config/name="Roll Of The Dice"
-run/main_scene="res://Levels/level2.tscn"
+run/main_scene="res://Levels/Menu.tscn"
 
 [autoload]
 
 global="*res://global.gd"
+
+[display]
+
+window/size/resizable=false
+window/size/fullscreen=true
 
 [gdnative]
 

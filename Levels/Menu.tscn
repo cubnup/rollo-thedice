@@ -1,15 +1,30 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://prefabs/bg.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenebutton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://light.png" type="Texture" id=3]
+[ext_resource path="res://Levels/dieordie.png" type="Texture" id=4]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="bg" parent="." instance=ExtResource( 1 )]
+[node name="di" parent="." instance=ExtResource( 1 )]
 
-[node name="scenebutton" parent="bg" instance=ExtResource( 2 )]
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="Dieordie" type="Sprite" parent="."]
+position = Vector2( 9, -149 )
+texture = ExtResource( 4 )
+
+[node name="Light2D" type="Light2D" parent="Dieordie"]
+position = Vector2( 2, 8 )
+texture = ExtResource( 3 )
+texture_scale = 1.5
+energy = 3.0
+
+[node name="scenebutton" parent="." instance=ExtResource( 2 )]
 margin_left = -300.0
 margin_top = -32.0
 margin_right = 300.0
@@ -17,12 +32,9 @@ margin_bottom = 92.0
 text = "Start"
 scene = "res://Levels/level1.tscn"
 
-[node name="scenebutton2" parent="bg" instance=ExtResource( 2 )]
+[node name="scenebutton2" parent="." instance=ExtResource( 2 )]
 margin_left = -300.0
 margin_top = 121.0
 margin_right = 300.0
 margin_bottom = 245.0
 scene = "res://Levels/Levels.tscn"
-
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true

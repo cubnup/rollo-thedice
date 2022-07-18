@@ -17,4 +17,4 @@ func _process(delta):
 		zoom = Vector2(1,1)
 		if camarea!=null: global_position = global_position.linear_interpolate(camarea,0.05)
 		else: position = position.linear_interpolate(vars.ppos+Vector2.UP*100,0.05)
-	zoom = zoom*1.2
+	zoom = zoom*0.8

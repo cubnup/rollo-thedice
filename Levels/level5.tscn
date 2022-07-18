@@ -17,7 +17,7 @@ tile_data = PoolIntArray( -524283, 0, 0, -524282, 0, 0, -524281, 0, 0, -524280, 
 
 [node name="door" parent="TileMap" instance=ExtResource( 1 )]
 position = Vector2( 1661, 125 )
-scene = "res://Levels/level6.tscn"
+scene = "res://Levels/level7.tscn"
 
 [node name="danger" parent="TileMap/door" instance=ExtResource( 5 )]
 position = Vector2( -1838, -447 )

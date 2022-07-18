@@ -1,15 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://prefabs/tilemap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/die.tscn" type="PackedScene" id=2]
-[ext_resource path="res://5x.png" type="Texture" id=3]
+[ext_resource path="res://text3.png" type="Texture" id=3]
 [ext_resource path="res://prefabs/bg.tscn" type="PackedScene" id=4]
-[ext_resource path="res://1x.png" type="Texture" id=5]
-[ext_resource path="res://3x.png" type="Texture" id=6]
-[ext_resource path="res://2x.png" type="Texture" id=7]
-[ext_resource path="res://4x.png" type="Texture" id=8]
-[ext_resource path="res://6x.png" type="Texture" id=9]
-[ext_resource path="res://prefabs/text.tscn" type="PackedScene" id=10]
 [ext_resource path="res://prefabs/door.tscn" type="PackedScene" id=11]
 [ext_resource path="res://prefabs/camarea.tscn" type="PackedScene" id=12]
 
@@ -20,90 +14,16 @@
 [node name="die" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1, -28 )
 
-[node name="text" parent="die" instance=ExtResource( 10 )]
-position = Vector2( 0, -180 )
-txt = "Release click to dash"
-
-[node name="text2" parent="die" instance=ExtResource( 10 )]
-position = Vector2( 0, -120 )
-txt = "Your dash will be 1 of 6"
-
-[node name="text3" parent="die" instance=ExtResource( 10 )]
-position = Vector2( 0, -240 )
-txt = "Hold click to charge dash"
-
-[node name="text3" parent="die/text3" instance=ExtResource( 10 )]
-position = Vector2( 0, 320 )
-scale = Vector2( 0.4, 0.4 )
-txt = "You have 2 dashes before you have to touch the ground again"
-
 [node name="TileMap" parent="." instance=ExtResource( 1 )]
 tile_data = PoolIntArray( -786407, 0, 0, -786406, 0, 0, -786405, 0, 0, -786404, 0, 0, -786403, 0, 0, -786402, 0, 0, -786401, 0, 0, -786400, 0, 0, -524276, 0, 0, -524275, 0, 0, -524274, 0, 0, -524273, 0, 0, -524272, 0, 0, -196589, 0, 0, -196588, 0, 0, -196587, 0, 0, -196586, 0, 0, -196585, 0, 0, 196601, 0, 0, 196602, 0, 0, 196603, 0, 0, 196604, 0, 0, 196605, 0, 0, 196606, 0, 0, 196607, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131087, 0, 0, 131088, 0, 0 )
-
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2( 0, -75 )
-scale = Vector2( 0.8, 0.8 )
-
-[node name="1x" type="Sprite" parent="Node2D"]
-position = Vector2( -500, 0 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 5 )
-
-[node name="text" parent="Node2D/1x" instance=ExtResource( 10 )]
-position = Vector2( 0, 300 )
-txt = "Straight dash"
-
-[node name="2x" type="Sprite" parent="Node2D"]
-position = Vector2( -300, 0 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 7 )
-
-[node name="text" parent="Node2D/2x" instance=ExtResource( 10 )]
-position = Vector2( 0, 300 )
-txt = "Zig-zag dash"
-
-[node name="3x" type="Sprite" parent="Node2D"]
-position = Vector2( -100, 0 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 6 )
-
-[node name="text" parent="Node2D/3x" instance=ExtResource( 10 )]
-position = Vector2( 0, 300 )
-txt = "Snake dash"
-
-[node name="4x" type="Sprite" parent="Node2D"]
-position = Vector2( 100, 0 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 8 )
-
-[node name="text" parent="Node2D/4x" instance=ExtResource( 10 )]
-position = Vector2( 0, 300 )
-txt = "Square dash"
-
-[node name="5x" type="Sprite" parent="Node2D"]
-position = Vector2( 300, 0 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 3 )
-
-[node name="text" parent="Node2D/5x" instance=ExtResource( 10 )]
-position = Vector2( 0, 300 )
-txt = "Hook dash"
-
-[node name="text2" parent="Node2D/5x/text" instance=ExtResource( 10 )]
-position = Vector2( 0, 60 )
-txt = "(click again to pull in)"
-
-[node name="6x" type="Sprite" parent="Node2D"]
-position = Vector2( 500, 0 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 9 )
-
-[node name="text" parent="Node2D/6x" instance=ExtResource( 10 )]
-position = Vector2( 0, 300 )
-txt = "Block dash"
 
 [node name="door" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1975, -864 )
 scene = "res://Levels/level3.tscn"
 
 [node name="camarea" parent="." instance=ExtResource( 12 )]
+
+[node name="Text3" type="Sprite" parent="."]
+position = Vector2( 0, -108 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 3 )

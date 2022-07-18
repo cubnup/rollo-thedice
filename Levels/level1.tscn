@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://prefabs/tilemap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/die.tscn" type="PackedScene" id=2]
-[ext_resource path="res://prefabs/text.tscn" type="PackedScene" id=3]
+[ext_resource path="res://text2.png" type="Texture" id=3]
 [ext_resource path="res://prefabs/bg.tscn" type="PackedScene" id=4]
 [ext_resource path="res://prefabs/door.tscn" type="PackedScene" id=5]
+[ext_resource path="res://text1.png" type="Texture" id=6]
 
 [node name="Node2D" type="Node2D"]
 
@@ -14,21 +15,17 @@
 position = Vector2( 1, -28 )
 special = false
 
-[node name="text" parent="." instance=ExtResource( 3 )]
-position = Vector2( -2, -112 )
-txt = "Arrow keys/WASD"
-
-[node name="text2" parent="." instance=ExtResource( 3 )]
-position = Vector2( -2, -52 )
-txt = "to move and jump."
-
-[node name="text3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1033, -63 )
-txt = "R to restart (if needed)"
-
 [node name="TileMap" parent="." instance=ExtResource( 1 )]
 tile_data = PoolIntArray( -131045, 0, 0, -131044, 0, 0, -131043, 0, 0, -131042, 0, 0, -131041, 0, 0, -131040, 0, 0, -131039, 0, 0, -131038, 0, 0, -131037, 0, 0, -65512, 0, 0, 19, 0, 0, 20, 0, 0, 196600, 0, 0, 196601, 0, 0, 196602, 0, 0, 196603, 0, 0, 196604, 0, 0, 196605, 0, 0, 196606, 0, 0, 196607, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 131085, 0, 0, 131088, 0, 0, 131089, 0, 0 )
 
 [node name="door" parent="." instance=ExtResource( 5 )]
 position = Vector2( 2200, -228 )
 scene = "res://Levels/level2.tscn"
+
+[node name="Text1" type="Sprite" parent="."]
+position = Vector2( -4, -122 )
+texture = ExtResource( 6 )
+
+[node name="Text2" type="Sprite" parent="."]
+position = Vector2( 1040, -86 )
+texture = ExtResource( 3 )

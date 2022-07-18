@@ -8,6 +8,8 @@
 
 [sub_resource type="DynamicFont" id=5]
 size = 100
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
 [sub_resource type="StyleBoxTexture" id=4]
@@ -26,6 +28,7 @@ region_rect = Rect2( 0, 0, 500, 500 )
 extents = Vector2( 300, 100 )
 
 [node name="scenebutton" type="Button"]
+light_mask = 0
 margin_left = 60.0
 margin_top = 100.0
 margin_right = 660.0

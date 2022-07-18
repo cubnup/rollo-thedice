@@ -50,7 +50,7 @@ margin_right = -47.0
 margin_bottom = 192.0
 rect_pivot_offset = Vector2( -316, -149 )
 text = "6"
-scene = "res://Levels/levl6.tscn"
+scene = "res://Levels/level6.tscn"
 
 [node name="scenebutton7" parent="bg" instance=ExtResource( 2 )]
 margin_left = -400.0
@@ -67,7 +67,7 @@ margin_top = 44.0
 margin_right = 203.0
 margin_bottom = 192.0
 text = "7"
-scene = "res://Levels/levl7.tscn"
+scene = "res://Levels/level7.tscn"
 
 [node name="scenebutton9" parent="bg" instance=ExtResource( 2 )]
 margin_left = 250.0

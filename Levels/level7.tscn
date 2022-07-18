@@ -10,7 +10,6 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="bg" parent="." instance=ExtResource( 2 )]
-visible = false
 
 [node name="die" parent="." instance=ExtResource( 1 )]
 
@@ -90,8 +89,8 @@ size = Vector2( 1, 1 )
 [node name="danger16" parent="TileMap" instance=ExtResource( 5 )]
 position = Vector2( 1000, -178 )
 
-[node name="door" parent="TileMap/danger16" instance=ExtResource( 6 )]
-position = Vector2( 1918, 65 )
+[node name="door" parent="TileMap" instance=ExtResource( 6 )]
+position = Vector2( 2918, -113 )
 scene = "res://Levels/level8.tscn"
 
 [node name="danger17" parent="TileMap" instance=ExtResource( 5 )]

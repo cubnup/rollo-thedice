@@ -21,7 +21,7 @@ var aimdir = Vector2.RIGHT
 var fallspds = [25,0,45]
 var fallspd = fallspds[0]
 var movspd = 500
-var friction = 0.1
+var friction = 0.05
 var jumpclock = 0
 var jumpornot = false
 var jumpimpulse = 50
@@ -97,7 +97,7 @@ func _process(delta):
 	
 	
 	
-	var coll = move_and_slide_with_snap(vel, Vector2.DOWN,Vector2.UP)
+	var coll = move_and_slide_with_snap(vel,Vector2.DOWN,Vector2.UP)
 
 func input():
 	
@@ -222,7 +222,6 @@ func start_end_special():
 func end_special():
 	move=false
 	specialendclock -= 1.0 if specialendclock>0 else 0.0
-	if (is_on_floor()) and specialendclock>1: specialendclock=1
 	if specialendclock>0:match vars.state:
 		0:
 			vel = 6*((specialendclock)/specialtimes[0])*specialenddir*specialtime
@@ -237,6 +236,7 @@ func end_special():
 			var dir = (mousepos-global_position).normalized()
 			dir = (dir.normalized()).slerp(Vector2.RIGHT.rotated(snap_angle((mousepos-global_position).angle(),4)),0.5)
 			vel = dir*200
+			if specialendclock==1:vel=Vector2.ZERO
 		3:
 			fallspd=0
 			var angle = (PI/2)

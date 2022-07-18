@@ -25,11 +25,11 @@ position = Vector2( 1600, -925 )
 timer = 100
 p2 = Vector2( 300, 0 )
 
+[node name="door" parent="TileMap" instance=ExtResource( 5 )]
+position = Vector2( 2003, -1070 )
+scene = "res://Levels/level4.tscn"
+
 [node name="moving" parent="." instance=ExtResource( 4 )]
 position = Vector2( 572, 81 )
 timer = 100
 p2 = Vector2( 0, -200 )
-
-[node name="door" parent="moving" instance=ExtResource( 5 )]
-position = Vector2( 1431, -1151 )
-scene = "res://Levels/level4.tscn"
